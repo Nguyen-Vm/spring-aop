@@ -1,7 +1,6 @@
 package org.linker.service;
 
 import org.linker.model.Person;
-import org.linker.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
@@ -20,16 +19,18 @@ import java.util.List;
 public class PersonService {
 
     @Autowired
-    PersonRepository personRepository;
-
-    @Autowired
     ElasticsearchTemplate elasticsearchTemplate;
 
     private static final String PERSON_INDEX_NAME = "person_index";
     private static final String PERSON_INDEX_TYPE = "person";
 
-    public Person add(Person person) {
-        return personRepository.save(person);
+    public String add(Person person) {
+        IndexQuery indexQuery = new IndexQuery();
+        indexQuery.setId(person.id + "");
+        indexQuery.setObject(person);
+        indexQuery.setIndexName(PERSON_INDEX_NAME);
+        indexQuery.setType(PERSON_INDEX_TYPE);
+        return elasticsearchTemplate.index(indexQuery);
     }
 
     public void bulkIndex(List<Person> personList) {

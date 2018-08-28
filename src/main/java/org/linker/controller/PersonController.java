@@ -36,10 +36,22 @@ public class PersonController {
 
     @GetMapping("/add")
     public Object add() {
+        Person person = new Person();
+        person.id = 1;
+        person.name = "名字";
+        person.phone = "电话";
+        person.address = "39.929986,116.395645";
+        return personService.add(person);
+    }
+
+    @GetMapping("/bulk")
+    public Object bulk() {
         double lat = 39.929986;
         double lon = 116.395645;
-        List<Person> personList = new ArrayList<>(900000);
-        for (int i = 100000; i < 1000000; i++) {
+
+        Long nowTime = System.currentTimeMillis();
+        List<Person> personList = new ArrayList<>(90000);
+        for (int i = 10000; i < 100000; i++) {
             double max = 0.00001;
             double min = 0.000001;
             Random random = new Random();
@@ -59,7 +71,7 @@ public class PersonController {
             personList.add(person);
         }
         personService.bulkIndex(personList);
-
+        System.out.println("耗时: " + (System.currentTimeMillis() - nowTime)/1000 + "s");
         return "添加数据成功!";
     }
 
@@ -72,17 +84,16 @@ public class PersonController {
 
         GeoDistanceQueryBuilder builder = QueryBuilders.geoDistanceQuery("address").point(lat, lon).distance(100, DistanceUnit.METERS);
 
-        GeoDistanceSortBuilder sortBuilder = SortBuilders.geoDistanceSort("address", lat, lon)
-                .point(lat, lon).unit(DistanceUnit.METERS).order(SortOrder.ASC);
+        GeoDistanceSortBuilder sortBuilder = SortBuilders.geoDistanceSort("address", lat, lon).unit(DistanceUnit.METERS).order(SortOrder.ASC);
 
-        Pageable pageable = new PageRequest(0, 50);
+        Pageable pageable = new PageRequest(0, 10);
 
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder().withFilter(builder).withSort(sortBuilder).withPageable(pageable);
         SearchQuery searchQuery = queryBuilder.build();
 
         List<Person> personList = elasticsearchTemplate.queryForList(searchQuery, Person.class);
 
-        System.out.println("耗时: " + (System.currentTimeMillis() - nowTime));
+        System.out.println("耗时: " + (System.currentTimeMillis() - nowTime)/1000 + "s");
         return personList;
 
     }
