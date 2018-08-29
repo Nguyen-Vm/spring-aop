@@ -3,11 +3,9 @@ package org.linker.aop;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.linker.model.AccessLog;
 import org.linker.service.AccessLogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -19,8 +17,8 @@ import java.util.UUID;
  * @author RWM
  * @date 2018/8/29
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class OperationAspect {
 
     @Autowired
