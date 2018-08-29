@@ -17,6 +17,7 @@ public class AccessLogService {
     ElasticsearchTemplate elasticsearchTemplate;
 
     public void save(AccessLog accessLog) {
+        System.out.println(accessLog);
         IndexQuery indexQuery = new IndexQuery();
         indexQuery.setId(accessLog.id);
         indexQuery.setObject(accessLog);

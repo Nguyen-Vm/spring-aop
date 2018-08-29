@@ -23,6 +23,21 @@ public class AccessLog {
 
     public String args;
 
+    public String api;
+
     public String response;
 
+    @Override
+    public String toString() {
+        return "AccessLog{" +
+                "id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                ", httpMethod='" + httpMethod + '\'' +
+                ", ip='" + ip + '\'' +
+                ", classMethod='" + classMethod + '\'' +
+                ", args='" + args + '\'' +
+                ", api='" + api + '\'' +
+                ", response='" + response + '\'' +
+                '}';
+    }
 }
