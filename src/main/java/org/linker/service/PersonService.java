@@ -1,12 +1,15 @@
 package org.linker.service;
 
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.linker.model.Person;
+import org.linker.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,6 +20,9 @@ import java.util.List;
  */
 @Service
 public class PersonService {
+
+    @Autowired
+    PersonRepository personRepository;
 
     @Autowired
     ElasticsearchTemplate elasticsearchTemplate;
@@ -65,4 +71,13 @@ public class PersonService {
     }
 
 
+    public Object find() {
+        QueryStringQueryBuilder builder = new QueryStringQueryBuilder("名字");
+        Iterable<Person> result = personRepository.search(builder);
+        Iterator<Person> iterator = result.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+        return null;
+    }
 }

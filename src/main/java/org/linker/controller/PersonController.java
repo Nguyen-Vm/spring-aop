@@ -44,6 +44,11 @@ public class PersonController {
         return personService.add(person);
     }
 
+    @GetMapping("/find")
+    public Object find() {
+        return personService.find();
+    }
+
     @GetMapping("/bulk")
     public Object bulk() {
         double lat = 39.929986;

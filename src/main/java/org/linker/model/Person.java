@@ -22,4 +22,14 @@ public class Person implements Serializable {
 
     @GeoPointField
     public String address;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
